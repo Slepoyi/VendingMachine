@@ -6,4 +6,8 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\VendingMachine.BLL\VendingMachine.BLL.csproj" />
+  </ItemGroup>
+
 </Project>
