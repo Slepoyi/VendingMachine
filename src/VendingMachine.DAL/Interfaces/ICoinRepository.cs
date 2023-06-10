@@ -6,8 +6,12 @@ namespace VendingMachine.DAL.Interfaces
     {
         IQueryable<Coin> Coins { get; }
 
-        Task AddCoinsAsync(IEnumerable<Coin> coins);
+        Task<Coin?> FindCoinAsync(CoinValue value);
 
-        Task RemoveCoinsAsync(IEnumerable<Coin> coins);
+        Task AddCoinAsync(Coin coin);
+
+        Task RemoveCoinAsync(Coin coin);
+
+        Task UpdateCoinAsync(Coin coin);
     }
 }

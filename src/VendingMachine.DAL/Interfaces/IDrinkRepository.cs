@@ -6,6 +6,8 @@ namespace VendingMachine.DAL.Interfaces
     {
         IQueryable<Drink> Drinks { get; }
 
+        Task<Drink?> FindDrinkAsync(int id);
+
         Task AddDrinkAsync(Drink drink);
 
         Task UpdateDrinkAsync(Drink drink);

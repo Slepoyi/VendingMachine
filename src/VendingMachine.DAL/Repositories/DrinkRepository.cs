@@ -2,7 +2,7 @@
 using VendingMachine.DAL.Entities;
 using VendingMachine.DAL.Interfaces;
 
-namespace VendingMachine.DAL.Services
+namespace VendingMachine.DAL.Repositories
 {
     public class DrinkRepository : IDrinkRepository
     {
@@ -14,6 +14,9 @@ namespace VendingMachine.DAL.Services
         }
 
         public IQueryable<Drink> Drinks => _efDbContext.Drinks;
+
+        public async Task<Drink?> FindDrinkAsync(int id)
+            => await _efDbContext.Drinks.FindAsync(id);
 
         public async Task AddDrinkAsync(Drink drink)
         {
