@@ -1,0 +1,92 @@
+﻿@using BLL.Dtos;
+@model IEnumerable<DrinkViewModel>
+
+@{
+    ViewData["Title"] = "Vending machine";
+}
+
+<div class="text-center">
+    <h2 class="display-4">Welcome to our vending machine!</h2>
+    <h3>Choose a drink from the section below, insert coins and enjoy your drink!</h3>
+</div>
+
+<hr />
+
+<div class="d-flex justify-content-center">
+    @if (Model.Count() == 0)
+    {
+        <div class="text-center">
+            <h4 class="display-4" style="color: darkred">Sorry, there is no any drink right now :(</h4>
+        </div>
+    }
+    @foreach (var drink in Model)
+    {
+        <div class="card" style="width: 8rem;">
+            <img class="card-img-top" src="@drink.PhotoUrl" alt="@drink.Name">
+            <div class="card-body">
+                <h2>@drink.Name</h2>
+                <h2>@drink.Price rub</h2>
+            </div>
+            <div class="card-footer">
+                <a class="btn btn-primary" onclick="" disabled>Купить</a>
+            </div>
+        </div>
+    }
+</div>
+
+<hr />
+
+<div class="d-block text-center">
+    <h2>
+        Current balance: 0
+    </h2>
+</div>
+
+<div class="d-flex justify-content-center">
+    <div class="card" style="width: 8rem;">
+        <div class="card-body d-flex flex-column" style="align-items: flex-start">
+            <h4 class="card-title">
+                1 ruble
+            </h4>
+            <a class="btn btn-primary" style="margin-top: auto">
+                Insert
+            </a>
+        </div>
+    </div>
+    <div class="card" style="width: 8rem;">
+        <div class="card-body d-flex flex-column" style="align-items: flex-start">
+            <h4 class="card-title">
+                2 rubles
+            </h4>
+            <a class="btn btn-primary" style="margin-top: auto">
+                Insert
+            </a>
+        </div>
+    </div>
+    <div class="card" style="width: 8rem;">
+        <div class="card-body d-flex flex-column" style="align-items: flex-start">
+            <h4 class="card-title">
+                5 rubles
+            </h4>
+            <a class="btn btn-primary" style="margin-top: auto">
+                Insert
+            </a>
+        </div>
+    </div>
+    <div class="card" style="width: 8rem;">
+        <div class="card-body d-flex flex-column" style="align-items: flex-start">
+            <h4 class="card-title">
+                10 rubles
+            </h4>
+            <a class="btn btn-primary" style="margin-top: auto">
+                Insert
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="d-flex flex-column justify-content-center align-items-center m-3">
+    <a class="btn btn-primary btn-lg">
+        Get change
+    </a>
+</div>
