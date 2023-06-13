@@ -3,7 +3,7 @@ using BLL.Extensions;
 using BLL.Interfaces;
 using VendingMachine.DAL.Interfaces;
 
-namespace BLL.Services
+namespace VendingMachine.BLL.DataServices
 {
     public class DrinkService : IDrinkService
     {

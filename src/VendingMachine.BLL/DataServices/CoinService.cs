@@ -3,7 +3,7 @@ using BLL.Extensions;
 using BLL.Interfaces;
 using VendingMachine.DAL.Interfaces;
 
-namespace BLL.Services
+namespace VendingMachine.BLL.DataServices
 {
     public class CoinService : ICoinService
     {
@@ -15,19 +15,14 @@ namespace BLL.Services
         }
 
         public IEnumerable<CoinDto> Coins
-        {
-            get
-            {
-                return _coinRepository.Coins.AsEnumerable().ToCoinDtoEnumerable();
-            }
-        }
+            => _coinRepository.Coins.AsEnumerable().ToCoinDtoEnumerable();
 
         public async Task AddCoinsAsync(IEnumerable<CoinDto> coins)
         {
             foreach (var coin in coins)
             {
                 var existingCoin = await _coinRepository.FindCoinAsync(coin.Value);
-                if (existingCoin == null)
+                if (existingCoin is null)
                     await _coinRepository.AddCoinAsync(coin.ToCoin());
                 else
                 {
@@ -42,29 +37,31 @@ namespace BLL.Services
             foreach (var coin in coins)
             {
                 var existingCoin = await _coinRepository.FindCoinAsync(coin.Value);
-                if (existingCoin == null)
+                if (existingCoin is null)
                     continue;
 
                 if (existingCoin.Quantity - coin.Quantity >= 0)
                 {
                     existingCoin.Quantity -= coin.Quantity;
-                    await _coinRepository.UpdateCoinAsync(existingCoin);
+                    var updTask = _coinRepository.UpdateCoinAsync(existingCoin);
                     yield return new CoinDto
                     {
                         Value = coin.Value,
                         Quantity = coin.Quantity
                     };
+                    await updTask;
                 }
                 else
                 {
                     var quantityToReturn = existingCoin.Quantity;
                     existingCoin.Quantity = 0;
-                    await _coinRepository.UpdateCoinAsync(existingCoin);
+                    var updTask = _coinRepository.UpdateCoinAsync(existingCoin);
                     yield return new CoinDto
                     {
                         Value = coin.Value,
                         Quantity = quantityToReturn
                     };
+                    await updTask;
                 }
             }
         }
