@@ -1,4 +1,26 @@
-﻿// Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
+﻿let sum = 0;
 
-// Write your JavaScript code.
+function addNRuble(n) {
+    sum += n;
+    console.log(sum);
+    updateBalance();
+}
+
+function getChange() {
+    sum = 0;
+    updateBalance();
+}
+
+function buyDrink(price) {
+    if (sum < price) {
+        alert("Not enough money!");
+        return;
+    }
+
+    sum -= price;
+    updateBalance();
+}
+
+function updateBalance() {
+    document.getElementById("balance").textContent = sum;
+}
