@@ -8,9 +8,9 @@ namespace VendingMachine.UI.Extensions
         public static DrinkViewModel ToDrinkViewModel(this DrinkDto drinkDto)
         {
             string? imgUrl = null;
-            if (drinkDto.Photo != null)
+            if (drinkDto.Photo is not null)
             {
-                var imreBase64Data = Convert.ToBase64String(drinkDto?.Photo);
+                var imreBase64Data = Convert.ToBase64String(drinkDto.Photo);
                 imgUrl = string.Format("data:image/png;base64,{0}", imreBase64Data);
             }
             return new DrinkViewModel
