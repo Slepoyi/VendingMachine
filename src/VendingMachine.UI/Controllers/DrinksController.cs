@@ -20,11 +20,19 @@ namespace VendingMachine.UI.Controllers
         public IActionResult GetDrinks(string secretKey)
         {
             //if (secretKey == _secretOptions.Secret)
-            //    return RedirectToAction("Admin");
+            //    return RedirectToAction("Main", "Admin");
             //var drinks = _drinkService.Drinks;
             ViewBag.Balance = 0;
             var drinks = Enumerable.Empty<DrinkViewModel>();
-            return View(drinks);
+            var dr = drinks.ToList();
+            dr.Add(new DrinkViewModel
+            {
+                Id = 1,
+                Amount = 5,
+                Name = "Coffee",
+                Price = 7
+            });
+            return View(dr);
         }
 
         public void OrderDrink(int drinkId, IEnumerable<CoinViewModel> coins)
