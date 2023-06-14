@@ -1,4 +1,5 @@
-﻿using VendingMachine.DAL.Context;
+﻿using Microsoft.EntityFrameworkCore;
+using VendingMachine.DAL.Context;
 using VendingMachine.DAL.Entities;
 using VendingMachine.DAL.Interfaces;
 
@@ -32,7 +33,7 @@ namespace VendingMachine.DAL.Repositories
 
         public async Task UpdateCoinAsync(Coin coin)
         {
-            _efDbContext.Coins.Update(coin);
+            _efDbContext.Entry(coin).State = EntityState.Modified;
             await _efDbContext.SaveChangesAsync();
         }
     }

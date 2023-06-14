@@ -1,4 +1,5 @@
-﻿using VendingMachine.DAL.Context;
+﻿using Microsoft.EntityFrameworkCore;
+using VendingMachine.DAL.Context;
 using VendingMachine.DAL.Entities;
 using VendingMachine.DAL.Interfaces;
 
@@ -26,7 +27,7 @@ namespace VendingMachine.DAL.Repositories
 
         public async Task UpdateDrinkAsync(Drink drink)
         {
-            _efDbContext.Drinks.Update(drink);
+            _efDbContext.Entry(drink).State = EntityState.Modified;
             await _efDbContext.SaveChangesAsync();
         }
 
