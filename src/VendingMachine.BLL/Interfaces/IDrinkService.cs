@@ -6,6 +6,8 @@ namespace BLL.Interfaces
     {
         IEnumerable<DrinkDto> Drinks { get; }
 
+        Task<DrinkDto?> FindDrinkAsync(int id);
+
         Task AddDrinkAsync(DrinkDto drinkDto);
 
         Task<bool> UpdateDrinkAsync(DrinkDto drinkDto);

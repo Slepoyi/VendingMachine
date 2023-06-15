@@ -17,6 +17,15 @@ namespace VendingMachine.BLL.DataServices
         public IEnumerable<DrinkDto> Drinks
             => _drinkRepository.Drinks.AsEnumerable().ToDrinkDtoEnumerable();
 
+        public async Task<DrinkDto?> FindDrinkAsync(int id)
+        {
+            var res = await _drinkRepository.FindDrinkAsync(id);
+            if (res is null)
+                return null;
+
+            return res.ToDrinkDto();
+        }
+
         public async Task AddDrinkAsync(DrinkDto drinkDto)
         {
             var drink = drinkDto.ToDrink();
