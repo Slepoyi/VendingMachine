@@ -10,6 +10,7 @@ namespace BLL.Extensions
             return new CoinDto
             {
                 Value = coin.Value,
+                IsAccepted = coin.IsAccepted,
                 Quantity = coin.Quantity
             };
         }
@@ -19,6 +20,7 @@ namespace BLL.Extensions
             return new Coin
             {
                 Value = coinDto.Value,
+                IsAccepted = coinDto.IsAccepted,
                 Quantity = coinDto.Quantity
             };
         }
