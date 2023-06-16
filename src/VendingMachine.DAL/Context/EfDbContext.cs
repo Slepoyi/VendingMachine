@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using VendingMachine.DAL.Entities;
+using VendingMachine.DAL.Seed;
 
 namespace VendingMachine.DAL.Context
 {
@@ -20,6 +21,11 @@ namespace VendingMachine.DAL.Context
                 .HasKey(d => d.Id);
             modelBuilder.Entity<Coin>()
                 .HasKey(c => c.Value);
+
+            modelBuilder.Entity<Coin>()
+                .HasData(SeedData.Coins);
+            modelBuilder.Entity<Drink>()
+                .HasData(SeedData.Drinks);
 
             base.OnModelCreating(modelBuilder);
         }
