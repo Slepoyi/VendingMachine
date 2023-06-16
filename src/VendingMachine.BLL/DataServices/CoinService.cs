@@ -17,6 +17,15 @@ namespace VendingMachine.BLL.DataServices
         public IEnumerable<CoinDto> Coins
             => _coinRepository.Coins.AsEnumerable().ToCoinDtoEnumerable();
 
+        public async Task<CoinDto?> FindCoinAsync(CoinValue value)
+        {
+            var coin = await _coinRepository.FindCoinAsync(value);
+            if (coin is null)
+                return null;
+
+            return coin.ToCoinDto();
+        }
+
         public async Task AddCoinsAsync(IEnumerable<CoinDto> coins)
         {
             foreach (var coin in coins)

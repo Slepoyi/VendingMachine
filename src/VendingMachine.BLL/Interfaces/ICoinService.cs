@@ -6,6 +6,8 @@ namespace BLL.Interfaces
     {
         IEnumerable<CoinDto> Coins { get; }
 
+        Task<CoinDto?> FindCoinAsync(CoinValue value);
+
         Task AddCoinsAsync(IEnumerable<CoinDto> coins);
 
         IAsyncEnumerable<CoinDto> RemoveCoinsAsync(IEnumerable<CoinDto> coins);
