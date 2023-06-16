@@ -19,7 +19,7 @@
                 @{
                     var disabled = ViewBag.Balance < drink.Price ? "disabled" : string.Empty;
                 }
-                <a class="btn btn-outline-primary @disabled" onclick="buyDrink(@drink.Price)">Купить</a>
+                <a class="btn btn-outline-primary @disabled" onclick="buyDrink(@drink.Id)">Купить</a>
             </div>
         </div>
     }
