@@ -1,26 +1,38 @@
-﻿let sum = 0;
-
-function addNRuble(n) {
-    sum += n;
-    console.log(sum);
-    updateBalance();
+﻿function addNRuble(n) {
+    $.ajax({
+        type: "POST",
+        url: '/Drinks/AddCoin/',
+        data: {
+            value: n
+        },
+        success: updateBalance,
+        error: function () { }
+    });
 }
 
 function getChange() {
-    sum = 0;
     updateBalance();
 }
 
-function buyDrink(price) {
-    if (sum < price) {
-        alert("Not enough money!");
-        return;
-    }
-
-    sum -= price;
-    updateBalance();
+function buyDrink(id) {
+    $.ajax({
+        type: "POST",
+        url: '/Drinks/OrderDrink/',
+        data: {
+            id: id
+        },
+        success: updateBalance,
+        error: function () { }
+    });
 }
 
 function updateBalance() {
-    document.getElementById("balance").textContent = sum;
+    $.ajax({
+        url: '/Drinks/GetBalance/',
+        type: 'GET',
+        success: function (response) {
+            document.getElementById("balance").textContent = response;
+        },
+        error: function (error) { }
+    });
 }
