@@ -26,52 +26,44 @@ namespace VendingMachine.BLL.DataServices
             return coin.ToCoinDto();
         }
 
-        public async Task AddCoinsAsync(IEnumerable<CoinDto> coins)
+        public async Task AddCoinAsync(CoinDto coinDto)
         {
-            foreach (var coin in coins)
+            var existingCoin = await _coinRepository.FindCoinAsync(coinDto.Value);
+            if (existingCoin is null)
+                await _coinRepository.AddCoinAsync(coinDto.ToCoin());
+            else
             {
-                var existingCoin = await _coinRepository.FindCoinAsync(coin.Value);
-                if (existingCoin is null)
-                    await _coinRepository.AddCoinAsync(coin.ToCoin());
-                else
-                {
-                    existingCoin.Quantity += coin.Quantity;
-                    await _coinRepository.UpdateCoinAsync(existingCoin);
-                }
+                existingCoin.Quantity += coinDto.Quantity;
+                await _coinRepository.UpdateCoinAsync(existingCoin);
             }
         }
 
-        public async IAsyncEnumerable<CoinDto> RemoveCoinsAsync(IEnumerable<CoinDto> coins)
+        public async Task<CoinDto?> RemoveCoinAsync(CoinDto coinDto)
         {
-            foreach (var coin in coins)
-            {
-                var existingCoin = await _coinRepository.FindCoinAsync(coin.Value);
-                if (existingCoin is null)
-                    continue;
+            var existingCoin = await _coinRepository.FindCoinAsync(coinDto.Value);
+            if (existingCoin is null)
+                return null;
 
-                if (existingCoin.Quantity - coin.Quantity >= 0)
+            if (existingCoin.Quantity - coinDto.Quantity >= 0)
+            {
+                existingCoin.Quantity -= coinDto.Quantity;
+                await _coinRepository.UpdateCoinAsync(existingCoin);
+                return new CoinDto
                 {
-                    existingCoin.Quantity -= coin.Quantity;
-                    var updTask = _coinRepository.UpdateCoinAsync(existingCoin);
-                    yield return new CoinDto
-                    {
-                        Value = coin.Value,
-                        Quantity = coin.Quantity
-                    };
-                    await updTask;
-                }
-                else
+                    Value = coinDto.Value,
+                    Quantity = coinDto.Quantity
+                };
+            }
+            else
+            {
+                var quantityToReturn = existingCoin.Quantity;
+                existingCoin.Quantity = 0;
+                await _coinRepository.UpdateCoinAsync(existingCoin);
+                return new CoinDto
                 {
-                    var quantityToReturn = existingCoin.Quantity;
-                    existingCoin.Quantity = 0;
-                    var updTask = _coinRepository.UpdateCoinAsync(existingCoin);
-                    yield return new CoinDto
-                    {
-                        Value = coin.Value,
-                        Quantity = quantityToReturn
-                    };
-                    await updTask;
-                }
+                    Value = coinDto.Value,
+                    Quantity = quantityToReturn
+                };
             }
         }
     }
