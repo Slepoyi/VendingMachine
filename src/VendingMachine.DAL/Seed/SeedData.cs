@@ -42,7 +42,7 @@ namespace VendingMachine.DAL.Seed
                 Name = "Green Tea",
                 Price = 22,
                 Amount = 20,
-                Photo = File.ReadAllBytes(_currentFolder + "GreenTea.jpeg")
+                //Photo = File.ReadAllBytes(_currentFolder + "GreenTea.jpeg")
             },
             new Drink
             {
@@ -50,7 +50,7 @@ namespace VendingMachine.DAL.Seed
                 Name = "Black Tea",
                 Price = 22,
                 Amount = 20,
-                Photo = File.ReadAllBytes(_currentFolder + "BlackTea.jpg")
+                //Photo = File.ReadAllBytes(_currentFolder + "BlackTea.jpg")
             },
             new Drink
             {
@@ -58,7 +58,7 @@ namespace VendingMachine.DAL.Seed
                 Name = "Coffee",
                 Price = 30,
                 Amount = 20,
-                Photo = File.ReadAllBytes(_currentFolder + "Coffee.jpg")
+                //Photo = File.ReadAllBytes(_currentFolder + "Coffee.jpg")
             },
             new Drink
             {
@@ -66,7 +66,7 @@ namespace VendingMachine.DAL.Seed
                 Name = "Water",
                 Price = 5,
                 Amount = 100,
-                Photo = File.ReadAllBytes(_currentFolder + "Water.jpg")
+                //Photo = File.ReadAllBytes(_currentFolder + "Water.jpg")
             },
             new Drink
             {
@@ -74,7 +74,7 @@ namespace VendingMachine.DAL.Seed
                 Name = "Soda",
                 Price = 15,
                 Amount = 40,
-                Photo = File.ReadAllBytes(_currentFolder + "Soda.jpg")
+                //Photo = File.ReadAllBytes(_currentFolder + "Soda.jpg")
             },
             new Drink
             {
@@ -82,7 +82,7 @@ namespace VendingMachine.DAL.Seed
                 Name = "Orange Soda",
                 Price = 15,
                 Amount = 40,
-                Photo = File.ReadAllBytes(_currentFolder + "OrangeSoda.jpg")
+                //Photo = File.ReadAllBytes(_currentFolder + "OrangeSoda.jpg")
             },
             new Drink
             {
@@ -90,7 +90,7 @@ namespace VendingMachine.DAL.Seed
                 Name = "Orange Juice",
                 Price = 18,
                 Amount = 40,
-                Photo = File.ReadAllBytes(_currentFolder + "OrangeJuice.jpg")
+                //Photo = File.ReadAllBytes(_currentFolder + "OrangeJuice.jpg")
             },
             new Drink
             {
@@ -98,7 +98,7 @@ namespace VendingMachine.DAL.Seed
                 Name = "Apple Juice",
                 Price = 14,
                 Amount = 40,
-                Photo = File.ReadAllBytes(_currentFolder + "AppleJuice.jpeg")
+                //Photo = File.ReadAllBytes(_currentFolder + "AppleJuice.jpeg")
             },
         };
     }
