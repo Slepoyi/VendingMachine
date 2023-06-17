@@ -10,14 +10,20 @@
     @foreach (var drink in Model)
     {
         <div class="card" style="width: 8rem;">
-            <img class="card-img-top" src="@drink.PhotoUrl" alt="@drink.Name">
+            <div class="card-header">
+                <img class="card-img-top" src="@drink.PhotoUrl" alt="@drink.Name">
+            </div>
             <div class="card-body">
                 <h2>@drink.Name</h2>
                 <h2>@drink.Price rub</h2>
             </div>
             <div class="card-footer">
                 @{
-                    var disabled = ViewBag.Balance < drink.Price ? "disabled" : string.Empty;
+                    var disabled =
+                    ViewBag.Balance is null
+                    || ViewBag.Balance < drink.Price
+                    ? "disabled"
+                    : null;
                 }
                 <a class="btn btn-outline-primary @disabled" onclick="buyDrink(@drink.Id)">Купить</a>
             </div>
