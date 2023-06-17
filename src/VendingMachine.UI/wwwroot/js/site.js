@@ -5,13 +5,31 @@
         data: {
             value: n
         },
-        success: updateBalance,
+        success: getDrinks,
         error: function () { }
     });
 }
 
 function getChange() {
+    $.ajax({
+        type: "POST",
+        url: '/Drinks/GetChange/',
+        data: {
+            value: n
+        },
+        success: updateBalance,
+        error: function () { }
+    });
     updateBalance();
+}
+
+function getDrinks() {
+    $.ajax({
+        type: "GET",
+        url: '/Drinks/GetDrinksPartial/',
+        success: updateBalance,
+        error: function () { }
+    });
 }
 
 function buyDrink(id) {
