@@ -1,6 +1,7 @@
 ﻿using BLL.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using VendingMachine.UI.Extensions;
+using VendingMachine.UI.Models;
 
 namespace VendingMachine.UI.Controllers
 {
@@ -16,12 +17,14 @@ namespace VendingMachine.UI.Controllers
         }
 
         [HttpGet]
+        [Route("/[controller]/main")]
         public IActionResult Main()
         {
             return View();
         }
 
         [HttpGet]
+        [Route("/[controller]/coins")]
         public IActionResult Coins()
         {
             var coins = _coinService.Coins;
@@ -29,6 +32,7 @@ namespace VendingMachine.UI.Controllers
         }
 
         [HttpGet]
+        [Route("/[controller]/drinks")]
         public IActionResult Drinks()
         {
             var drinks = _drinkService.Drinks;
@@ -36,34 +40,44 @@ namespace VendingMachine.UI.Controllers
         }
 
         [HttpGet]
-        public IActionResult Drink()
+        [Route("/[controller]/drinks/{drinkId}")]
+        public async Task<IActionResult> DrinkAsync(int drinkId)
         {
-            var coins = _coinService.Coins;
-            return View(coins.ToCoinViewModelEnumerable());
+            var drink = await _drinkService.FindDrinkAsync(drinkId);
+            if (drink is null)
+                return NotFound("There is no drink with this id");
+            return View(drink.ToDrinkViewModel());
         }
 
         [HttpGet]
-        public IActionResult Coin()
+        [Route("/[controller]/coins/{coinValue}")]
+        public async Task<IActionResult> CoinAsync(CoinValue coinValue)
         {
-            var coins = _coinService.Coins;
-            return View(coins.ToCoinViewModelEnumerable());
+            var coinDto = await _coinService.FindCoinAsync(coinValue);
+            if (coinDto is null)
+                return NotFound("There is no coin with this value");
+            return View(coinDto.ToCoinViewModel());
         }
 
         [HttpPost]
-        public async Task EditDrink()
+        [ValidateAntiForgeryToken]
+        [Route("/[controller]/editdrink")]
+        public async Task EditDrink(DrinkViewModel drinkViewModel)
         {
             if (ModelState.IsValid)
             {
-
+                await _drinkService.UpdateDrinkAsync(drinkViewModel.ToDrinkDto());
             }
         }
 
         [HttpPost]
-        public async Task EditCoin()
+        [ValidateAntiForgeryToken]
+        [Route("/[controller]/editcoin")]
+        public async Task EditCoin(CoinViewModel coinViewModel)
         {
             if (ModelState.IsValid)
             {
-
+                await _coinService.AddCoinAsync(coinViewModel.ToCoinDto());
             }
         }
     }
