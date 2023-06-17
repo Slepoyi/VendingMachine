@@ -13,6 +13,7 @@ namespace VendingMachine.UI.Models
         public int Price { get; set; }
         [Range(0, int.MaxValue)]
         public int Amount { get; set; }
+        public byte[]? Photo { get; set; }
         public string? PhotoUrl { get; set; }
     }
 }

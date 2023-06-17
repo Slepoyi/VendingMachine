@@ -19,7 +19,20 @@ namespace VendingMachine.UI.Extensions
                 Name = drinkDto.Name,
                 Price = drinkDto.Price,
                 Amount = drinkDto.Amount,
+                Photo = drinkDto.Photo,
                 PhotoUrl = imgUrl
+            };
+        }
+
+        public static DrinkDto ToDrinkDto(this DrinkViewModel drinkViewModel)
+        {
+            return new DrinkDto
+            {
+                Id = drinkViewModel.Id,
+                Name = drinkViewModel.Name,
+                Price = drinkViewModel.Price,
+                Amount = drinkViewModel.Amount,
+                Photo = drinkViewModel.Photo
             };
         }
 
@@ -30,6 +43,16 @@ namespace VendingMachine.UI.Extensions
                 Value = coinDto.Value,
                 IsAccepted = coinDto.IsAccepted,
                 Quantity = coinDto.Quantity
+            };
+        }
+
+        public static CoinDto ToCoinDto(this CoinViewModel coinViewModel)
+        {
+            return new CoinDto
+            {
+                Value = coinViewModel.Value,
+                IsAccepted = coinViewModel.IsAccepted,
+                Quantity = coinViewModel.Quantity
             };
         }
 
