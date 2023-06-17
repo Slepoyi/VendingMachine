@@ -1,7 +1,7 @@
 ﻿function addNRuble(n) {
     $.ajax({
         type: "POST",
-        url: '/Drinks/AddCoin/',
+        url: '/customer/addcoin/',
         data: {
             value: n
         },
@@ -13,10 +13,7 @@
 function getChange() {
     $.ajax({
         type: "POST",
-        url: '/Drinks/GetChange/',
-        data: {
-            value: n
-        },
+        url: '/customer/getchange/',
         success: updateBalance,
         error: function () { }
     });
@@ -26,7 +23,7 @@ function getChange() {
 function getDrinks() {
     $.ajax({
         type: "GET",
-        url: '/Drinks/GetDrinksPartial/',
+        url: '/customer/drinkspartial/',
         success: updateBalance,
         error: function () { }
     });
@@ -35,9 +32,9 @@ function getDrinks() {
 function buyDrink(id) {
     $.ajax({
         type: "POST",
-        url: '/Drinks/OrderDrink/',
+        url: '/customer/orderdrink/',
         data: {
-            id: id
+            drinkId: id
         },
         success: updateBalance,
         error: function () { }
@@ -46,7 +43,7 @@ function buyDrink(id) {
 
 function updateBalance() {
     $.ajax({
-        url: '/Drinks/GetBalance/',
+        url: '/customer/getbalance/',
         type: 'GET',
         success: function (response) {
             document.getElementById("balance").textContent = response;
