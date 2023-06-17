@@ -1,1 +1,28 @@
 ﻿@model CoinViewModel
+
+<form asp-action="EditCoin" asp-controller="Admin" asp-anti-forgery="true">
+    <div class="form-group">
+        <div class="validation" asp-validation-summary="ModelOnly"></div>
+
+        <div class="input-wrapper">
+
+            <input asp-for="Value" class="input" placeholder="Value" />
+            <span asp-validation-for="Value"></span>
+
+            <input asp-for="IsAccepted" class="input" placeholder="Acceptance" type="checkbox">
+            <span asp-validation-for="IsAccepted"></span>
+
+            <input asp-for="Quantity" class="input" placeholder="Quantity" type="number">
+            <span asp-validation-for="Quantity"></span>
+
+        </div>
+
+        <button class="btn btn-outline-primary" type="submit">Update</button>
+    </div>
+</form>
+
+<div class="container d-flex justify-content-center m-4">
+    <a class="btn btn-outline-primary" href="/Admin/Main/">
+        To main
+    </a>
+</div>

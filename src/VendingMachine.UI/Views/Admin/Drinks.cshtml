@@ -1,2 +1,30 @@
 ﻿@model IEnumerable<DrinkViewModel>
 
+<div class="text-center">
+    <h2 class="display-5">Select coin which you want to edit</h2>
+</div>
+
+<hr />
+
+<div class="d-flex justify-content-center list-group">
+    @foreach (var drink in Model)
+    {
+        <div class="list-group-item">
+            <div class="d-flex justify-content-end">
+                <span>
+                    @drink.Name
+                </span>
+                <div class="container">
+                    <a class="btn btn-outline-primary" href="/Admin/Drink/@drink.Id">Edit</a>
+                    <a class="btn btn-outline-primary" href="/Admin/DeleteDrink/">Delete</a>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<div class="container d-flex justify-content-center m-4">
+    <a class="btn btn-outline-primary" href="/Admin/Main/">
+        To main
+    </a>
+</div>

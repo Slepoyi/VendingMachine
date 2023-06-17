@@ -1,1 +1,30 @@
 ﻿@model DrinkViewModel
+
+<form asp-action="EditDrink" asp-controller="Admin" asp-anti-forgery="true">
+    <div class="form-group">
+        <div class="validation" asp-validation-summary="ModelOnly"></div>
+
+        <div class="input-wrapper">
+
+@*            <input asp-for="Id" class="input" placeholder="Id" />
+            <span asp-validation-for="Id"></span>*@
+
+            <input asp-for="Name" class="input" placeholder="Name" type="text">
+            <span asp-validation-for="Name"></span>
+
+            <input asp-for="Price" class="input" placeholder="Price" type="number">
+            <span asp-validation-for="Price"></span>
+
+            <input asp-for="Amount" class="input" placeholder="Amount" type="number">
+            <span asp-validation-for="Amount"></span>
+        </div>
+
+        <button class="btn btn-outline-primary" type="submit">Update</button>
+    </div>
+</form>
+
+<div class="container d-flex justify-content-center m-4">
+    <a class="btn btn-outline-primary" href="/Admin/Main/">
+        To main
+    </a>
+</div>
