@@ -23,11 +23,29 @@ namespace VendingMachine.UI.Extensions
             };
         }
 
+        public static CoinViewModel ToCoinViewModel(this CoinDto coinDto)
+        {
+            return new CoinViewModel
+            {
+                Value = coinDto.Value,
+                IsAccepted = coinDto.IsAccepted,
+                Quantity = coinDto.Quantity
+            };
+        }
+
         public static IEnumerable<DrinkViewModel> ToDrinkViewModelEnumerable(this IEnumerable<DrinkDto> drinkDtoEnumerable)
         {
             foreach (var drink in drinkDtoEnumerable)
             {
                 yield return drink.ToDrinkViewModel();
+            }
+        }
+
+        public static IEnumerable<CoinViewModel> ToCoinViewModelEnumerable(this IEnumerable<CoinDto> coinDtoEnumerable)
+        {
+            foreach (var coin in coinDtoEnumerable)
+            {
+                yield return coin.ToCoinViewModel();
             }
         }
     }
