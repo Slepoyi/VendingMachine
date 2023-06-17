@@ -1,4 +1,5 @@
-﻿using VendingMachine.BLL.Interfaces;
+﻿using BLL.Dtos;
+using VendingMachine.BLL.Interfaces;
 using VendingMachine.DAL.Interfaces;
 
 namespace VendingMachine.BLL.ChangerServices
@@ -12,22 +13,38 @@ namespace VendingMachine.BLL.ChangerServices
             _coinRepository = coinRepository;
         }
 
-        public async Task<Dictionary<CoinValue, int>> GetChangeAsync(int remainingMoney)
+        public async Task<IEnumerable<CoinDto>> GetChangeAsync(int remainingMoney)
         {
-            var dict = new Dictionary<CoinValue, int>
+            var coinDtos = new List<CoinDto>()
             {
-                { CoinValue.Ten, 0 },
-                { CoinValue.Five, 0 },
-                { CoinValue.Two, 0 },
-                { CoinValue.One, 0 }
+                new CoinDto
+                {
+                    Value = CoinValue.Ten,
+                    Quantity = 0
+                },
+                new CoinDto
+                {
+                    Value = CoinValue.Five,
+                    Quantity = 0
+                },
+                new CoinDto
+                {
+                    Value = CoinValue.Two,
+                    Quantity = 0
+                },
+                new CoinDto
+                {
+                    Value = CoinValue.One,
+                    Quantity = 0
+                },
             };
 
-            foreach (var kvp in dict)
+            foreach (var coinDto in coinDtos)
             {
                 if (remainingMoney == 0)
                     break;
 
-                var coin = await _coinRepository.FindCoinAsync(kvp.Key);
+                var coin = await _coinRepository.FindCoinAsync(coinDto.Value);
                 if (coin is null || coin.Quantity == 0)
                     continue;
 
@@ -38,10 +55,10 @@ namespace VendingMachine.BLL.ChangerServices
                 if (coin.Quantity < remainder)
                     remainder = coin.Quantity;
 
-                dict[kvp.Key] = remainder;
+                coinDto.Quantity = remainder;
                 remainingMoney -= remainder * (int)coin.Value;
             }
-            return dict;
+            return coinDtos;
         }
     }
 }
