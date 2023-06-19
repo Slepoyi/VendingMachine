@@ -1,32 +1,30 @@
 ﻿@model IEnumerable<DrinkViewModel>
 
-<div class="d-flex justify-content-center">
-    @if (Model.Count() == 0)
-    {
-        <div class="text-center">
-            <h4 class="display-6" style="color: darkred">Sorry, there is no any drink right now :(</h4>
+@if (Model.Count() == 0)
+{
+    <div class="text-center">
+        <h4 class="display-6" style="color: darkred">Sorry, there is no any drink right now :(</h4>
+    </div>
+}
+@foreach (var drink in Model)
+{
+    <div class="card w-25">
+        <div class="card-header">
+            <img class="card-img-top" src="@drink.PhotoUrl" alt="@drink.Name">
         </div>
-    }
-    @foreach (var drink in Model)
-    {
-        <div class="card" style="width: 8rem;">
-            <div class="card-header">
-                <img class="card-img-top" src="@drink.PhotoUrl" alt="@drink.Name">
-            </div>
-            <div class="card-body">
-                <h2>@drink.Name</h2>
-                <h2>@drink.Price rub</h2>
-            </div>
-            <div class="card-footer">
-                @{
-                    var disabled =
-                    ViewBag.Balance is null
-                    || ViewBag.Balance < drink.Price
-                    ? "disabled"
-                    : null;
-                }
-                <a class="btn btn-outline-primary @disabled" onclick="buyDrink(@drink.Id)">Купить</a>
-            </div>
+        <div class="card-body">
+            <h2>@drink.Name</h2>
+            <h2>@drink.Price rub</h2>
         </div>
-    }
-</div>
+        <div class="card-footer">
+            @{
+                var disabled =
+                ViewBag.Balance is null
+                || ViewBag.Balance < drink.Price
+                ? "disabled"
+                : null;
+            }
+            <a class="btn btn-outline-primary @disabled" onclick="buyDrink(@drink.Id)">Купить</a>
+        </div>
+    </div>
+}
