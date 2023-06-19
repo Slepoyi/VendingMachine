@@ -2,6 +2,7 @@
 using BLL.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using System.Text;
 using VendingMachine.BLL.Interfaces;
 using VendingMachine.UI.Extensions;
 using VendingMachine.UI.Models;
@@ -67,7 +68,7 @@ namespace VendingMachine.UI.Controllers
         }
 
         [HttpPost]
-        public async Task<IEnumerable<CoinViewModel>> GetChangeAsync()
+        public async Task<IActionResult> GetChangeAsync()
         {
             var change = await _changerService.GetChangeAsync(_balance);
             foreach (var coin in change)
@@ -76,7 +77,13 @@ namespace VendingMachine.UI.Controllers
                 await _coinService.TakeCoinAsync(coin);
             }
             _balance = 0;
-            return change.ToCoinViewModelEnumerable();
+
+            var sb = new StringBuilder();
+            sb.Append("Don't forget your cache! ");
+            foreach (var coin in change)
+                sb.Append($"{coin.Quantity} coin(s) of {coin.Value} rub, ");
+
+            return Ok(sb.ToString().Remove(sb.Length - 2, 2));
         }
 
         [HttpPost]
@@ -87,7 +94,7 @@ namespace VendingMachine.UI.Controllers
 
             _balance += (int)value;
 
-            await _coinService.UpdateCoinAsync(
+            await _coinService.AddCoinAsync(
                 new CoinDto
                 {
                     Value = value,

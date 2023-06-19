@@ -14,7 +14,10 @@ function getChange() {
     $.ajax({
         type: "POST",
         url: '/customer/getchange/',
-        success: getDrinksCustomer,
+        success: function (response) {
+            document.getElementById("changeMessage").textContent = response;
+            getDrinksCustomer();
+        },
         error: function () { }
     });
 }
@@ -31,7 +34,10 @@ function buyDrink(id) {
         data: {
             drinkId: id
         },
-        success: getDrinks,
+        success: function (response) {
+            document.getElementById("drinksMessage").textContent = response;
+            getDrinksCustomer();
+        },
         error: function () { }
     });
 }

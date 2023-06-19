@@ -15,6 +15,12 @@
     @await Html.PartialAsync("DrinksPartial")
 </div>
 
+<div class="text-center">
+    <h2 class="display-5 text-success">
+        <span id="drinksMessage"></span>
+    </h2>
+</div>
+
 <hr />
 
 <div class="d-block text-center">
@@ -34,9 +40,9 @@
                 </h4>
                 @{
                     var disabled =
-                        !coin.IsAccepted
-                        ? "disabled"
-                        : null;
+                    !coin.IsAccepted
+                    ? "disabled"
+                    : null;
                     var coinValue = (int)coin.Value;
                 }
                 <a class="btn btn-outline-primary @disabled" style="margin-top: auto" onclick="addNRuble(@coinValue)">
@@ -51,4 +57,12 @@
     <a class="btn btn-outline-primary btn-lg" onclick="getChange()">
         Get change
     </a>
+</div>
+
+<hr />
+
+<div class="text-center">
+    <h2 class="display-5 text-success">
+        <span id="changeMessage"></span>
+    </h2>
 </div>
