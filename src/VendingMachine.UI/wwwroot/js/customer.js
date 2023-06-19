@@ -5,7 +5,7 @@
         data: {
             value: n
         },
-        success: getDrinks,
+        success: getDrinksCustomer,
         error: function () { }
     });
 }
@@ -14,19 +14,14 @@ function getChange() {
     $.ajax({
         type: "POST",
         url: '/customer/getchange/',
-        success: updateBalance,
+        success: getDrinksCustomer,
         error: function () { }
     });
-    updateBalance();
 }
 
-function getDrinks() {
-    $.ajax({
-        type: "GET",
-        url: '/customer/drinkspartial/',
-        success: updateBalance,
-        error: function () { }
-    });
+function getDrinksCustomer() {
+    $('#divPartial').load('/customer/drinkspartial/'); 
+    updateBalance();
 }
 
 function buyDrink(id) {
@@ -36,7 +31,7 @@ function buyDrink(id) {
         data: {
             drinkId: id
         },
-        success: updateBalance,
+        success: getDrinks,
         error: function () { }
     });
 }
