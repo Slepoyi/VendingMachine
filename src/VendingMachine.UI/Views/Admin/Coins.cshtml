@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<CoinViewModel>
 
 <div class="text-center">
-    <h2 class="display-5">Select coin which you want to edit</h2>
+    <h2 class="display-5">Coins administrative page</h2>
 </div>
 
 <hr />
@@ -10,20 +10,21 @@
     @foreach (var coin in Model)
     {
         <div class="list-group-item">
-            <div class="d-flex justify-content-end">
-                <span>
-                    @coin.Value rub
-                </span>
+            <div class="d-flex justify-content-between align-items-center">
                 <div class="container">
-                    <a class="btn btn-outline-primary" href="/Admin/Coin/@coin.Value">Edit</a>
+                    <span>
+                        @coin.Value rub
+                    </span>
+                </div>
+                <div class="container d-flex justify-content-end">
+                    @{
+                        var coinValue = (int)coin.Value;
+                    }
+                    <a class="btn btn-outline-primary" href="/Admin/Coin/?coinValue=@coinValue">Edit</a>
                 </div>
             </div>
         </div>
     }
 </div>
 
-<div class="container d-flex justify-content-center m-4">
-    <a class="btn btn-outline-primary" href="/Admin/Main/">
-        To main
-    </a>
-</div>
+@await Html.PartialAsync("ButtonMainPartial")

@@ -1,28 +1,28 @@
 ﻿@model CoinViewModel
 
-<form asp-action="EditCoin" asp-controller="Admin" asp-anti-forgery="true">
-    <div class="form-group">
-        <div class="validation" asp-validation-summary="ModelOnly"></div>
+<div class="text-center">
+    <h2 class="display-5">Editing @Model.Value rub coins</h2>
+</div>
 
-        <div class="input-wrapper">
+<form asp-action="EditCoin" asp-controller="Admin" asp-antiforgery="true" class="card p-3 bg-light">
+    <div class="validation" asp-validation-summary="ModelOnly"></div>
 
-            <input asp-for="Value" class="input" placeholder="Value" />
-            <span asp-validation-for="Value"></span>
-
-            <input asp-for="IsAccepted" class="input" placeholder="Acceptance" type="checkbox">
-            <span asp-validation-for="IsAccepted"></span>
-
-            <input asp-for="Quantity" class="input" placeholder="Quantity" type="number">
-            <span asp-validation-for="Quantity"></span>
-
-        </div>
-
-        <button class="btn btn-outline-primary" type="submit">Update</button>
+    <div class="mb-3 form-check">
+        <input asp-for="IsAccepted" type="checkbox" class="form-check-input" id="accepted">
+        <label class="form-check-label" for="accepted">Accepted</label>
+        <span asp-validation-for="IsAccepted"></span>
     </div>
+
+    <div class="mb-3">
+        <label class="form-check-label" for="quantity">Quantity</label>
+        <input asp-for="Quantity" type="number" class="form-control" id="quantity" placeholder="Quantity">
+        <span asp-validation-for="Quantity"></span>
+    </div>
+    <div class="mb-3">
+        <input asp-for="Value" class="form-control" placeholder="Value" hidden />
+        <span asp-validation-for="Value"></span>
+    </div>
+    <button type="submit" class="btn btn-outline-primary">Update</button>
 </form>
 
-<div class="container d-flex justify-content-center m-4">
-    <a class="btn btn-outline-primary" href="/Admin/Main/">
-        To main
-    </a>
-</div>
+@await Html.PartialAsync("ButtonMainPartial")

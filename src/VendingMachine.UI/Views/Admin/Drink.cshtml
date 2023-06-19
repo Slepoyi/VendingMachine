@@ -1,30 +1,37 @@
-﻿@model DrinkViewModel
+﻿@model DrinkEditModel
 
-<form asp-action="EditDrink" asp-controller="Admin" asp-anti-forgery="true">
-    <div class="form-group">
-        <div class="validation" asp-validation-summary="ModelOnly"></div>
+<form asp-action="EditDrink" asp-controller="Admin" asp-antiforgery="true" class="card p-3 bg-light" enctype="multipart/form-data">
+    <div class="validation" asp-validation-summary="ModelOnly"></div>
 
-        <div class="input-wrapper">
-
-@*            <input asp-for="Id" class="input" placeholder="Id" />
-            <span asp-validation-for="Id"></span>*@
-
-            <input asp-for="Name" class="input" placeholder="Name" type="text">
-            <span asp-validation-for="Name"></span>
-
-            <input asp-for="Price" class="input" placeholder="Price" type="number">
-            <span asp-validation-for="Price"></span>
-
-            <input asp-for="Amount" class="input" placeholder="Amount" type="number">
-            <span asp-validation-for="Amount"></span>
-        </div>
-
-        <button class="btn btn-outline-primary" type="submit">Update</button>
+    <div class="mb-3">
+        <label class="form-label" for="name">Name</label>
+        <input asp-for="Name" type="text" class="form-control" id="name" placeholder="Name">
+        <span asp-validation-for="Name"></span>
     </div>
+
+    <div class="mb-3">
+        <label class="form-label" for="price">Price</label>
+        <input asp-for="Price" type="number" class="form-control" id="price">
+        <span asp-validation-for="Price"></span>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label" for="amount">Amount</label>
+        <input asp-for="Amount" type="number" class="form-control" id="amount">
+        <span asp-validation-for="Amount"></span>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label" for="photo">Photo</label>
+        <input asp-for="PhotoFile" type="file" class="form-control" id="photo">
+    </div>
+
+    <div class="mb-3">
+        <input asp-for="Id" type="text" value="@Model.Id" class="form-control" id="id" hidden />
+        <span asp-validation-for="Id"></span>
+    </div>
+
+    <button type="submit" class="btn btn-outline-primary">Update</button>
 </form>
 
-<div class="container d-flex justify-content-center m-4">
-    <a class="btn btn-outline-primary" href="/Admin/Main/">
-        To main
-    </a>
-</div>
+@await Html.PartialAsync("ButtonMainPartial")
