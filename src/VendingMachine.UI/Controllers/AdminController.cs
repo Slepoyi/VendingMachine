@@ -1,4 +1,5 @@
-﻿using BLL.Interfaces;
+﻿using BLL.Dtos;
+using BLL.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using VendingMachine.UI.Extensions;
 using VendingMachine.UI.Models;
@@ -17,14 +18,12 @@ namespace VendingMachine.UI.Controllers
         }
 
         [HttpGet]
-        [Route("/[controller]/main")]
         public IActionResult Main()
         {
             return View();
         }
 
         [HttpGet]
-        [Route("/[controller]/coins")]
         public IActionResult Coins()
         {
             var coins = _coinService.Coins;
@@ -32,7 +31,6 @@ namespace VendingMachine.UI.Controllers
         }
 
         [HttpGet]
-        [Route("/[controller]/drinks")]
         public IActionResult Drinks()
         {
             var drinks = _drinkService.Drinks;
@@ -40,17 +38,26 @@ namespace VendingMachine.UI.Controllers
         }
 
         [HttpGet]
-        [Route("/[controller]/drinks/{drinkId}")]
-        public async Task<IActionResult> DrinkAsync(int drinkId)
+        public IActionResult DrinksPartial()
         {
-            var drink = await _drinkService.FindDrinkAsync(drinkId);
-            if (drink is null)
-                return NotFound("There is no drink with this id");
-            return View(drink.ToDrinkViewModel());
+            var drinks = _drinkService.Drinks;
+            return PartialView(drinks.ToDrinkViewModelEnumerable());
         }
 
         [HttpGet]
-        [Route("/[controller]/coins/{coinValue}")]
+        public async Task<IActionResult> DrinkAsync(int drinkId)
+        {
+            if (drinkId == 0)
+                return View(new DrinkDto().ToDrinkViewModel());
+
+            var drink = await _drinkService.FindDrinkAsync(drinkId);
+            if (drink is null)
+                return NotFound("There is no drink with this id");
+
+            return View(drink.ToDrinkEditModel());
+        }
+
+        [HttpGet]
         public async Task<IActionResult> CoinAsync(CoinValue coinValue)
         {
             var coinDto = await _coinService.FindCoinAsync(coinValue);
@@ -61,24 +68,28 @@ namespace VendingMachine.UI.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Route("/[controller]/editdrink")]
-        public async Task EditDrink(DrinkViewModel drinkViewModel)
+        public async Task<IActionResult> EditDrinkAsync(DrinkEditModel drinkEditModel)
         {
             if (ModelState.IsValid)
-            {
-                await _drinkService.UpdateDrinkAsync(drinkViewModel.ToDrinkDto());
-            }
+                await _drinkService.UpdateDrinkAsync(drinkEditModel.ToDrinkDto());
+
+            return RedirectToAction("Drinks", "Admin");
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Route("/[controller]/editcoin")]
-        public async Task EditCoin(CoinViewModel coinViewModel)
+        public async Task<IActionResult> EditCoinAsync(CoinViewModel coinViewModel)
         {
             if (ModelState.IsValid)
-            {
-                await _coinService.AddCoinAsync(coinViewModel.ToCoinDto());
-            }
+                await _coinService.UpdateCoinAsync(coinViewModel.ToCoinDto());
+
+            return RedirectToAction("Coins", "Admin");
+        }
+
+        [HttpPost]
+        public async Task DeleteDrinkAsync(int drinkId)
+        {
+            await _drinkService.DeleteDrinkAsync(drinkId);
         }
     }
 }

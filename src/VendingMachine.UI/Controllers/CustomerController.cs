@@ -27,18 +27,18 @@ namespace VendingMachine.UI.Controllers
         }
 
         [HttpGet]
-        [Route("/[controller]/main")]
         public IActionResult Main(string secretKey)
         {
             if (secretKey == _secretOptions.Secret)
                 return RedirectToAction("main", "admin");
             _balance = 0;
+            var coins = _coinService.Coins;
+            ViewData["Coins"] = coins;
             var drinks = _drinkService.Drinks;
             return View(drinks.ToDrinkViewModelEnumerable());
         }
 
         [HttpGet]
-        [Route("/[controller]/drinkspartial")]
         public IActionResult DrinksPartial()
         {
             ViewBag.Balance = _balance;
@@ -47,7 +47,6 @@ namespace VendingMachine.UI.Controllers
         }
 
         [HttpPost]
-        [Route("/[controller]/orderdrink")]
         public async Task<IActionResult> OrderDrinkAsync(int drinkId)
         {
             var drink = await _drinkService.FindDrinkAsync(drinkId);
@@ -61,32 +60,34 @@ namespace VendingMachine.UI.Controllers
                 return BadRequest("Not enough money");
 
             _balance -= drink.Price;
-
             drink.Amount -= 1;
             await _drinkService.UpdateDrinkAsync(drink);
+            
             return Ok($"Here is your {drink.Name}! Enjoy!");
         }
 
-        [HttpGet]
-        [Route("/[controller]/getchange")]
+        [HttpPost]
         public async Task<IEnumerable<CoinViewModel>> GetChangeAsync()
         {
             var change = await _changerService.GetChangeAsync(_balance);
+            foreach (var coin in change)
+            {
+                if (coin.Quantity == 0) continue;
+                await _coinService.TakeCoinAsync(coin);
+            }
             _balance = 0;
             return change.ToCoinViewModelEnumerable();
         }
 
         [HttpPost]
-        [Route("/[controller]/addcoin")]
         public async Task AddCoinAsync(CoinValue value)
         {
             var coinDto = await _coinService.FindCoinAsync(value);
-            if (coinDto is null || !coinDto.IsAccepted)
-                return;
+            if (coinDto is null || !coinDto.IsAccepted) return;
 
             _balance += (int)value;
 
-            await _coinService.AddCoinAsync(
+            await _coinService.UpdateCoinAsync(
                 new CoinDto
                 {
                     Value = value,
@@ -96,7 +97,6 @@ namespace VendingMachine.UI.Controllers
         }
 
         [HttpGet]
-        [Route("/[controller]/getbalance")]
         public int GetBalance() => _balance;
     }
 }
