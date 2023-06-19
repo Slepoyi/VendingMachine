@@ -5,7 +5,7 @@ using VendingMachine.DAL.Interfaces;
 
 namespace VendingMachine.DAL.Repositories
 {
-    public class DrinkRepository : IDrinkRepository
+    public class DrinkRepository : IRepository<Drink, int>
     {
         private readonly EfDbContext _efDbContext;
 
@@ -14,24 +14,32 @@ namespace VendingMachine.DAL.Repositories
             _efDbContext = efDbContext;
         }
 
-        public IQueryable<Drink> Drinks => _efDbContext.Drinks;
+        public IQueryable<Drink> Entities => _efDbContext.Drinks.AsNoTracking();
 
-        public async Task<Drink?> FindDrinkAsync(int id)
+        public async Task<Drink?> FindAsync(int id)
             => await _efDbContext.Drinks.FindAsync(id);
 
-        public async Task AddDrinkAsync(Drink drink)
+        public async Task AddAsync(Drink drink)
         {
             await _efDbContext.Drinks.AddAsync(drink);
             await _efDbContext.SaveChangesAsync();
         }
 
-        public async Task UpdateDrinkAsync(Drink drink)
+        public async Task UpdateAsync(Drink drink)
         {
+            var attachedEntity = _efDbContext.ChangeTracker
+                .Entries<Drink>()
+                .FirstOrDefault(e => e.Entity.Id == drink.Id);
+
+            if (attachedEntity is not null)
+                _efDbContext.Entry(attachedEntity.Entity).State = EntityState.Detached;
+
             _efDbContext.Entry(drink).State = EntityState.Modified;
+
             await _efDbContext.SaveChangesAsync();
         }
 
-        public async Task DeleteDrinkAsync(Drink drink)
+        public async Task DeleteAsync(Drink drink)
         {
             _efDbContext.Drinks.Remove(drink);
             await _efDbContext.SaveChangesAsync();

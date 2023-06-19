@@ -1,14 +1,15 @@
 ﻿using BLL.Dtos;
 using VendingMachine.BLL.Interfaces;
+using VendingMachine.DAL.Entities;
 using VendingMachine.DAL.Interfaces;
 
 namespace VendingMachine.BLL.ChangerServices
 {
     public class GreedyChangerService : IChangerService
     {
-        private readonly ICoinRepository _coinRepository;
+        private readonly IRepository<Coin, CoinValue> _coinRepository;
 
-        public GreedyChangerService(ICoinRepository coinRepository)
+        public GreedyChangerService(IRepository<Coin, CoinValue> coinRepository)
         {
             _coinRepository = coinRepository;
         }
@@ -44,7 +45,7 @@ namespace VendingMachine.BLL.ChangerServices
                 if (remainingMoney == 0)
                     break;
 
-                var coin = await _coinRepository.FindCoinAsync(coinDto.Value);
+                var coin = await _coinRepository.FindAsync(coinDto.Value);
                 if (coin is null || coin.Quantity == 0)
                     continue;
 
