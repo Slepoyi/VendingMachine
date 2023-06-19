@@ -1,0 +1,20 @@
+﻿@model IEnumerable<DrinkViewModel>
+
+<div class="d-flex justify-content-center list-group">
+    @foreach (var drink in Model)
+    {
+        <div class="list-group-item">
+            <div class="d-flex justify-content-end align-items-center">
+                <div class="container">
+                    <span>
+                        @drink.Name
+                    </span>
+                </div>
+                <div class="container d-flex justify-content-end">
+                    <a class="btn btn-outline-primary mx-2" href="/Admin/Drink/?drinkId=@drink.Id">Edit</a>
+                    <a class="btn btn-outline-danger" onclick="deleteDrink(@drink.Id)">Delete</a>
+                </div>
+            </div>
+        </div>
+    }
+</div>
