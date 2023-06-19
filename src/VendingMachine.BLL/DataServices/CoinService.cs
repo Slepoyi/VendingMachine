@@ -50,5 +50,17 @@ namespace VendingMachine.BLL.DataServices
                 await _coinRepository.UpdateAsync(existingCoin);
             }
         }
+
+        public async Task AddCoinAsync(CoinDto coinDto)
+        {
+            var existingCoin = await _coinRepository.FindAsync(coinDto.Value);
+            if (existingCoin is null)
+                throw new InvalidOperationException();
+            else
+            {
+                existingCoin.Quantity += coinDto.Quantity;
+                await _coinRepository.UpdateAsync(existingCoin);
+            }
+        }
     }
 }

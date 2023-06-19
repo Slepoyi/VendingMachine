@@ -11,5 +11,7 @@ namespace BLL.Interfaces
         Task UpdateCoinAsync(CoinDto coinDto);
 
         Task TakeCoinAsync(CoinDto coinDto);
+
+        Task AddCoinAsync(CoinDto coinDto);
     }
 }
