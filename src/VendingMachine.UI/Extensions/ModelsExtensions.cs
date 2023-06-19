@@ -24,6 +24,40 @@ namespace VendingMachine.UI.Extensions
             };
         }
 
+        public static DrinkDto ToDrinkDto(this DrinkEditModel drinkEditModel)
+        {
+            byte[]? photo = null;
+            if (drinkEditModel.PhotoFile is not null)
+            {
+                if (drinkEditModel.PhotoFile.Length > 0)
+                {
+                    using var ms = new MemoryStream();
+                    drinkEditModel.PhotoFile.CopyTo(ms);
+                    photo = ms.ToArray();
+                }
+            }
+            return new DrinkDto
+            {
+                Id = drinkEditModel.Id,
+                Name = drinkEditModel.Name,
+                Price = drinkEditModel.Price,
+                Amount = drinkEditModel.Amount,
+                Photo = photo,
+            };
+        }
+
+        public static DrinkEditModel ToDrinkEditModel(this DrinkDto drinkDto)
+        {
+            return new DrinkEditModel
+            {
+                Id = drinkDto.Id,
+                Name = drinkDto.Name,
+                Price = drinkDto.Price,
+                Amount = drinkDto.Amount,
+                Photo = drinkDto.Photo
+            };
+        }
+
         public static DrinkDto ToDrinkDto(this DrinkViewModel drinkViewModel)
         {
             return new DrinkDto
