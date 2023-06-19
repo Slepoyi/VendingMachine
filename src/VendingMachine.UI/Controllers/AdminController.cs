@@ -45,11 +45,8 @@ namespace VendingMachine.UI.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> DrinkAsync(int drinkId)
+        public async Task<IActionResult> EditDrinkAsync(int drinkId)
         {
-            if (drinkId == 0)
-                return View(new DrinkDto().ToDrinkViewModel());
-
             var drink = await _drinkService.FindDrinkAsync(drinkId);
             if (drink is null)
                 return NotFound("There is no drink with this id");
@@ -58,7 +55,13 @@ namespace VendingMachine.UI.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> CoinAsync(CoinValue coinValue)
+        public IActionResult AddDrink()
+        {
+            return View(new DrinkEditModel());
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> EditCoinAsync(CoinValue coinValue)
         {
             var coinDto = await _coinService.FindCoinAsync(coinValue);
             if (coinDto is null)
@@ -72,6 +75,16 @@ namespace VendingMachine.UI.Controllers
         {
             if (ModelState.IsValid)
                 await _drinkService.UpdateDrinkAsync(drinkEditModel.ToDrinkDto());
+
+            return RedirectToAction("Drinks", "Admin");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddDrinkAsync(DrinkEditModel drinkEditModel)
+        {
+            if (ModelState.IsValid)
+                await _drinkService.AddDrinkAsync(drinkEditModel.ToDrinkDto());
 
             return RedirectToAction("Drinks", "Admin");
         }
