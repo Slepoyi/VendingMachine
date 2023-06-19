@@ -33,17 +33,6 @@ namespace VendingMachine.DAL.Repositories
 
         public async Task UpdateAsync(Coin coin)
         {
-            //var attachedEntity = _efDbContext.ChangeTracker
-            //    .Entries<Drink>()
-            //    .FirstOrDefault(e => e.Entity.Id == drink.Id);
-
-            //if (attachedEntity is not null)
-            //    _efDbContext.Entry(attachedEntity.Entity).State = EntityState.Detached;
-
-            //_efDbContext.Entry(drink).State = EntityState.Modified;
-
-            //await _efDbContext.SaveChangesAsync();
-
             _efDbContext.Entry(coin).State = EntityState.Modified;
             await _efDbContext.SaveChangesAsync();
         }
