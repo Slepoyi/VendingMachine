@@ -10,7 +10,7 @@ namespace BLL.Interfaces
 
         Task AddDrinkAsync(DrinkDto drinkDto);
 
-        Task<bool> UpdateDrinkAsync(DrinkDto drinkDto);
+        Task UpdateDrinkAsync(DrinkDto drinkDto);
 
         Task<DrinkDto?> DeleteDrinkAsync(int id);
     }

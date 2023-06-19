@@ -8,8 +8,8 @@ namespace BLL.Interfaces
 
         Task<CoinDto?> FindCoinAsync(CoinValue value);
 
-        Task AddCoinAsync(CoinDto coinDto);
+        Task UpdateCoinAsync(CoinDto coinDto);
 
-        Task<CoinDto?> RemoveCoinAsync(CoinDto coinDto);
+        Task TakeCoinAsync(CoinDto coinDto);
     }
 }
