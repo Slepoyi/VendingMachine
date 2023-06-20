@@ -11,9 +11,16 @@ using VendingMachine.UI.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 
+var conn = builder.Configuration.GetConnectionString("LocalConnection");
+var dir = Environment.CurrentDirectory;
+if (conn.Contains("%CONTENTROOTPATH%"))
+{
+    conn = conn.Replace("%CONTENTROOTPATH%", dir);
+}
+
 builder.Services.AddDbContext<EfDbContext>(options =>
 {
-    options.UseSqlServer(builder.Configuration.GetConnectionString("LocalConnection"));
+    options.UseSqlServer(conn);
 });
 
 builder.Services.AddControllersWithViews();
