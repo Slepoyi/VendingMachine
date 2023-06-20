@@ -13,8 +13,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDbContext<EfDbContext>(options =>
 {
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DesktopConnection"));
-    options.EnableSensitiveDataLogging(true);
+    options.UseSqlServer(builder.Configuration.GetConnectionString("LocalConnection"));
 });
 
 builder.Services.AddControllersWithViews();

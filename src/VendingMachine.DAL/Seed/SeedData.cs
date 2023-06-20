@@ -4,7 +4,8 @@ namespace VendingMachine.DAL.Seed
 {
     public class SeedData
     {
-        private const string _currentFolder = "C:\\Users\\Павел\\Desktop\\VendingMachine\\src\\VendingMachine.DAL\\Seed\\";
+        //private const string _currentFolder = "C:\\Users\\Павел\\Desktop\\VendingMachine\\src\\VendingMachine.DAL\\Seed\\";
+        private const string _currentFolder = "C:\\Users\\zubda\\source\\repos\\VendingMachine\\src\\VendingMachine.DAL\\Seed\\";
 
         public static List<Coin> Coins { get; } = new()
         {
