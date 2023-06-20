@@ -42,7 +42,7 @@ namespace VendingMachine.UI.Extensions
                 Name = drinkEditModel.Name,
                 Price = drinkEditModel.Price,
                 Amount = drinkEditModel.Amount,
-                Photo = photo is null ? drinkEditModel.Photo : photo
+                Photo = photo
             };
         }
 
